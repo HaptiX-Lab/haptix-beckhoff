@@ -13,12 +13,12 @@ END_VAR
 VAR	
 	// This is a single channel of a two-channel quadrature encoder 
 	// (if using the EL5122). This QE_CHANNEL object maps all the data
-	// we want directly (counts, settings, etc.) FROM the device manager 
+	// we want directly (counts) FROM the device manager 
 	// found in the IO tab TO this quadrature encoder block right here. 
 	// The quadrature encoder block abstracts any complexity needed 
 	// to read/set values in the QE_CHANNEL object so that the device 
 	// works as seemlessly as possible. 
-	QE_CHANNEL : MDP5001_511_E552458F; 	
+	QE_CHANNEL_COUNTS AT %I* : UDINT; 	
 	
 	// We also create some additional variables to keep track of things 
 	// for degrees calculation 
@@ -32,7 +32,7 @@ END_VAR
       <ST><![CDATA[// Here, we first check to see if initialized, and then 
 // we update the position value. 
 IF NOT bLastCountInitialized THEN 
-	nLastCount := QE_CHANNEL.MDP5001_511_Input.MDP5001_511_Counter_value;
+	nLastCount := QE_CHANNEL_COUNTS;
 	bLastCountInitialized := TRUE; 
 END_IF
 
@@ -68,7 +68,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// First get the current coutns 
-nCurrentCount := QE_CHANNEL.MDP5001_511_Input.MDP5001_511_Counter_value; 
+nCurrentCount := QE_CHANNEL_COUNTS; 
 
 // Quickly check if we can exit early
 IF nCurrentCount = nLastCount THEN 
