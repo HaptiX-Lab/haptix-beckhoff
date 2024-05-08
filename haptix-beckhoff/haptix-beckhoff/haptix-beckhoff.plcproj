@@ -16,6 +16,12 @@
     <Implicit_KindOfTask>{ac0f3586-4a04-44b5-a564-a59066d9de0d}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{26be7241-1097-443e-8333-a1d1bbb345b9}</Implicit_Jitter_Distribution>
     <LibraryReferences>{1089a305-1db6-4473-ae82-df51a1a488ca}</LibraryReferences>
+    <Company>HaptiX Lab</Company>
+    <Released>false</Released>
+    <Title>Haptix-Beckhoff</Title>
+    <ProjectVersion>0.1</ProjectVersion>
+    <Author>Nick Janne</Author>
+    <Description>This is a library containing a standardized set of function blocks and tools used in research projects at the HaptiX Lab at the University of Michigan</Description>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PlcTask.TcTTO">
@@ -59,19 +65,19 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" />
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>
