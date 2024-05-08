@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<TcEventSources Version="2">
+	<Source>
+		<GUID>{28111931-0002-0000-5230-021400001000}</GUID>
+		<Name LcId="1031">EL5122 2K. Inc. Encoder 5V (2xAB TTL)</Name>
+		<Name LcId="1033">EL5122 2Ch. Inc. Encoder 5V (2xAB TTL)</Name>
+		<Event>
+			<Id>17154</Id>
+			<Message LcId="1031">Maximale Frequenz des Eingangssignals ist bald erreicht (Kanal {0})</Message>
+			<Message LcId="1033">Maximum frequency of the input signal is nearly reached (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>17155</Id>
+			<Message LcId="1031">Limit-Zählergrenze wurde aufgrund der PDO-Konfiguration reduziert (Kanal {0})</Message>
+			<Message LcId="1033">Limit counter value was reduced because of the PDO configuration (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>17156</Id>
+			<Message LcId="1031">Reset-Zählergrenze wurde aufgrund der PDO-Konfiguration reduziert (Kanal {0})</Message>
+			<Message LcId="1033">Reset counter value was reduced because of the PDO configuration (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>33151</Id>
+			<Message LcId="1031">Interner Hardwarefehler ({0})</Message>
+			<Message LcId="1033">Internal hardware error ({0})</Message>
+		</Event>
+		<Event>
+			<Id>33539</Id>
+			<Message LcId="1031">Encoderspannung nicht vorhanden (Kanal {0})</Message>
+			<Message LcId="1033">Encoder power missing (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>33552</Id>
+			<Message LcId="1031">Initialisierungsfehler</Message>
+			<Message LcId="1033">Initialisation error</Message>
+		</Event>
+		<Event>
+			<Id>33553</Id>
+			<Message LcId="1031">Maximale Frequenz des Eingangssignals ist überschritten (Kanal {0})</Message>
+			<Message LcId="1033">Maximum frequency of the input signal is exceeded (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>33554</Id>
+			<Message LcId="1031">Encoder Plausibilitätsfehler (Kanal {0})</Message>
+			<Message LcId="1033">Encoder plausibility error (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>33555</Id>
+			<Message LcId="1031">Konfigurationsfehler (Kanal {0})</Message>
+			<Message LcId="1033">Configuration error (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>33556</Id>
+			<Message LcId="1031">Synchronisierungsfehler</Message>
+			<Message LcId="1033">Synchronisation error</Message>
+		</Event>
+		<Event>
+			<Id>33557</Id>
+			<Message LcId="1031">Fehler Status-Eingang (Kanal {0})</Message>
+			<Message LcId="1033">Error status input (channel {0})</Message>
+		</Event>
+		<Property>
+			<Name>DisplayTxtId</Name>
+			<Value>true</Value>
+		</Property>
+	</Source>
+</TcEventSources>

@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_QuadratureEncoder" Id="{c2c3e88c-24c7-458c-b216-075a1fcf3b65}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_QuadratureEncoder
+VAR_INPUT
+	nCPR : UINT := 2048; // Counts per revolution of encoder
+END_VAR
+VAR_OUTPUT
+	rDegrees : REAL := 0; 
+	rLastDegrees : REAL := 0; 
+	nNetCounts : LINT := 0; 
+END_VAR
+VAR	
+	// This is a single channel of a two-channel quadrature encoder 
+	// (if using the EL5122). This QE_CHANNEL object maps all the data
+	// we want directly (counts, settings, etc.) FROM the device manager 
+	// found in the IO tab TO this quadrature encoder block right here. 
+	// The quadrature encoder block abstracts any complexity needed 
+	// to read/set values in the QE_CHANNEL object so that the device 
+	// works as seemlessly as possible. 
+	QE_CHANNEL : MDP5001_511_E552458F; 	
+	
+	// We also create some additional variables to keep track of things 
+	// for degrees calculation 
+	nMAX_ENCODER_COUNT : ULINT := 16#100000000; // 2^32
+	bLastCountInitialized : BOOL := FALSE; 
+	nLastCount : UDINT; 
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Here, we first check to see if initialized, and then 
+// we update the position value. 
+IF NOT bLastCountInitialized THEN 
+	nLastCount := QE_CHANNEL.MDP5001_511_Input.MDP5001_511_Counter_value;
+	bLastCountInitialized := TRUE; 
+END_IF
+
+// First we call a function to update the cumulated counts value 
+UpdateNetCounts();
+
+// Then we convert to degrees as well as updating last degrees 
+UpdateDegrees(); ]]></ST>
+    </Implementation>
+    <Method Name="UpdateDegrees" Id="{212feabe-efe8-40be-aee4-c3d6fdad4495}">
+      <Declaration><![CDATA[METHOD UpdateDegrees : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Here, we simply take the current net counts value 
+// and convert it to degrees. We also take note 
+// of the previous degrees value and store in last degrees
+rLastDegrees := rDegrees; 
+rDegrees := LINT_TO_REAL(nNetCounts) * 360.0 / (4 * nCPR); 
+UpdateDegrees := TRUE; ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateNetCounts" Id="{307177f1-b724-4e3d-b0fc-d3f1100e3f3b}">
+      <Declaration><![CDATA[METHOD UpdateNetCounts : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	nCurrentCount : UDINT; 
+	nForwardDistance : ULINT; 
+	nBackwardDistance : ULINT; 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// First get the current coutns 
+nCurrentCount := QE_CHANNEL.MDP5001_511_Input.MDP5001_511_Counter_value; 
+
+// Quickly check if we can exit early
+IF nCurrentCount = nLastCount THEN 
+	UpdateNetCounts := TRUE; 
+	RETURN; 
+END_IF
+
+// Otherwise, calculate forward, backward distances 
+nForwardDistance := (nCurrentCount - nLastCount + nMAX_ENCODER_COUNT) MOD nMAX_ENCODER_COUNT; 
+nBackwardDistance := (nLastCount - nCurrentCount + nMAX_ENCODER_COUNT) MOD nMAX_ENCODER_COUNT; 
+
+IF nForwardDistance <= nBackwardDistance THEN 
+	nNetCounts := nNetCounts + ULINT_TO_LINT(nForwardDistance); 
+ELSIF nBackwardDistance < nForwardDistance THEN 
+	nNetCounts := nNetCounts - ULINT_TO_LINT(nBackwardDistance); 
+ELSE 
+	UpdateNetCounts := FALSE; // Error has occured 
+	RETURN; 
+END_IF
+
+nLastCount := nCurrentCount; 
+UpdateNetCounts := TRUE; ]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_QuadratureEncoder">
+      <LineId Id="9" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QuadratureEncoder.UpdateDegrees">
+      <LineId Id="5" Count="5" />
+    </LineIds>
+    <LineIds Name="FB_QuadratureEncoder.UpdateNetCounts">
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="27" Count="4" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

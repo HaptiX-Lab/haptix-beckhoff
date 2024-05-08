@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Test_AnalogMotorDriver" Id="{60f30f80-19b9-4c10-973c-d0d6a78832e7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Test_AnalogMotorDriver
+VAR
+	AM_Driver : FB_AnalogMotorDriver; 
+	fbSystemTime : GETSYSTEMTIME; 
+	lowerHalf : UDINT; // Lower 32 bits 
+	upperHalf : UDINT; // Upper 32 bits 
+	fullTime : ULINT; // Combined 64 bits
+	currentTimeSeconds : LREAL; 
+	elapsedSeconds : LREAL; 
+	
+	bInitialTimeSet : BOOL := FALSE; 
+	initialTimeSeconds : LREAL; // To store initial time for reference 
+	
+	// Output values for sine 
+	rSineSignal : LREAL; 
+	nPosOutputCommand : INT; 
+	nNegOutputCommand : INT; 
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Poll the current system time 
+fbSystemTime();
+lowerHalf := fbSystemTime.timeLoDW; 
+upperHalf := fbSystemTime.timeHiDW; 
+
+fullTime := SHL(UDINT_TO_ULINT(upperHalf), 32) OR UDINT_TO_ULINT(lowerHalf); 
+currentTimeSeconds := ULINT_TO_LREAL(fullTime) / 10000000.0; 
+
+// Check to see if we need to set our initial condition. 
+IF NOT bInitialTimeSet THEN
+	initialTimeSeconds := currentTimeSeconds; 
+	bInitialTimeSet := TRUE; 
+END_IF
+
+// Then get the DT 
+elapsedSeconds := currentTimeSeconds - initialTimeSeconds; 
+
+// Finally, pass the sine value to see what's up 
+rSineSignal := 2 * SIN(elapsedSeconds * 2 * 3.14); 
+AM_Driver(rCommandVoltage := rSineSignal); 
+nPosOutputCommand := AM_Driver.nPosAnalogOutput; 
+nNegOutputCommand := AM_Driver.nNegAnalogOutput; ]]></ST>
+    </Implementation>
+    <LineIds Name="Test_AnalogMotorDriver">
+      <LineId Id="15" Count="0" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="64" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="52" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_AnalogMotorDriver" Id="{b2eb26c5-5ea8-480c-816a-aba06acf678d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AnalogMotorDriver
+VAR_INPUT
+	// Nominally, respect requested command voltage between (-10)-10V, i.e. if rCommandVoltage
+	// is 5, then the output on the channel should be 5V. However, we can alternatively 
+	// Request voltage in normalized mode, which considers rCommandVoltage as a 
+	// normalized signal between (-1)-1. To enable this mode, set the bUseNormalizedScale
+	// flag, which is defaulted to false. When normalized signals are used, the user can additionally 
+	// specify whether normalized commands map to (-10)-10V, or (-5)-5V; the latter is triggered
+	// when bUseHalfScale is set to TRUE. 
+	rCommandVoltage : REAL;
+	bUseNormalizedScale : BOOL := FALSE;
+	bUseHalfScale : BOOL := FALSE; 
+END_VAR
+VAR_OUTPUT
+	nPosAnalogOutput AT %Q* : INT; 
+	nNegAnalogOutput AT %Q* : INT; 
+	nZeroRefAnalogOutput AT %Q* : INT; 
+	bOutputInError : BOOL; 
+END_VAR
+VAR
+	nTEN_VOLT_AMPLITUDE : INT := 32767; 
+	nFIVE_VOLT_AMPLITUDE : INT := 16383;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bUseNormalizedScale THEN 
+	
+	// In this case we were passed a raw voltage signal. 
+	// Should check to see if scaling is appropriate, etc. 
+	IF ABS(rCommandVoltage) > 10 THEN
+		bOutputInError := TRUE; 
+		RETURN; 
+	END_IF
+	
+	nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE / 10.0);
+	nNegAnalogOutput := -1 * nPosAnalogOutput;  
+	
+	bOutputInError := FALSE;
+
+ELSE 
+	
+	// Again check if argument is valid
+	IF ABS(rCommandVoltage) > 1 THEN 
+		bOutputInError := TRUE; 
+		RETURN;
+	END_IF
+	
+	// Check to see if we should use the half scale. 
+	IF bUseHalfScale THEN
+		nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nFIVE_VOLT_AMPLITUDE); 
+	ELSE
+		nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE); 
+	END_IF
+	
+	nNegAnalogOutput := -1 * nPosAnalogOutput;  
+	bOutputInError := FALSE; 
+	
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_AnalogMotorDriver">
+      <LineId Id="9" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="57" Count="2" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="48" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

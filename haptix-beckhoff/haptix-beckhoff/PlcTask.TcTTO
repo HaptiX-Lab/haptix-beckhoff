@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Task Name="PlcTask" Id="{65e8e1e1-0cb1-40fb-94e3-7ea47a9fdc81}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>20</Priority>
+    <PouCall>
+      <Name>Test_AnalogMotorDriver</Name>
+    </PouCall>
+    <TaskFBGuid>{9224ef74-df1e-4b6b-a5ab-2ea627e9a139}</TaskFBGuid>
+    <Fb_init>{71bb9552-eeae-4a77-add1-f0468da895a5}</Fb_init>
+    <Fb_exit>{ca50872e-d542-4f69-97a6-166b89b5cbd0}</Fb_exit>
+    <CycleUpdate>{6a5388d0-2a23-4ace-bd7f-e28bfb93f0c7}</CycleUpdate>
+    <PostCycleUpdate>{499fe414-4f64-43a5-8657-187e84ed3e77}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>
