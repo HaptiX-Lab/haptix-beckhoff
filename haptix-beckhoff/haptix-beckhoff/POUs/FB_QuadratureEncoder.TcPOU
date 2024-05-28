@@ -42,6 +42,17 @@ UpdateNetCounts();
 // Then we convert to degrees as well as updating last degrees 
 UpdateDegrees(); ]]></ST>
     </Implementation>
+    <Method Name="Reset" Id="{e613566e-35f4-4e28-b2e0-4de08a7ebe15}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bLastCountInitialized := FALSE; 
+nNetCounts := 0; 
+rDegrees := 0;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="UpdateDegrees" Id="{212feabe-efe8-40be-aee4-c3d6fdad4495}">
       <Declaration><![CDATA[METHOD UpdateDegrees : BOOL
 VAR_INPUT
@@ -105,6 +116,9 @@ UpdateNetCounts := TRUE; ]]></ST>
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QuadratureEncoder.Reset">
+      <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="FB_QuadratureEncoder.UpdateDegrees">
       <LineId Id="5" Count="5" />

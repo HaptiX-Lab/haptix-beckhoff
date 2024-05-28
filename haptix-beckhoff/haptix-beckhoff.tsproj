@@ -85,7 +85,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{49302D0B-4263-46FF-AF63-89C4D717E34D}" Name="haptix-beckhoff" PrjFilePath="haptix-beckhoff\haptix-beckhoff.plcproj" TmcFilePath="haptix-beckhoff\haptix-beckhoff.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="haptix-beckhoff\haptix-beckhoff.tmc" TmcHash="{D216CF95-F576-6253-6E48-789BC7464CB7}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="haptix-beckhoff\haptix-beckhoff.tmc" TmcHash="{6FAB0EAA-14FF-5455-A8BD-21500F824EB0}">
 					<Name>haptix-beckhoff Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

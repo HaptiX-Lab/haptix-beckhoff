@@ -60,6 +60,18 @@ ELSE
 	
 END_IF]]></ST>
     </Implementation>
+    <Method Name="Reset" Id="{6ef63b72-da15-42e0-8a82-653ddacbeedc}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nPosAnalogOutput := 0; 
+nNegAnalogOutput := 0; 
+nZeroRefAnalogOutput := 0; 
+bOutputInError := FALSE; ]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_AnalogMotorDriver">
       <LineId Id="9" Count="0" />
       <LineId Id="30" Count="0" />
@@ -87,6 +99,9 @@ END_IF]]></ST>
       <LineId Id="66" Count="0" />
       <LineId Id="49" Count="0" />
       <LineId Id="48" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AnalogMotorDriver.Reset">
+      <LineId Id="5" Count="3" />
     </LineIds>
   </POU>
 </TcPlcObject>
