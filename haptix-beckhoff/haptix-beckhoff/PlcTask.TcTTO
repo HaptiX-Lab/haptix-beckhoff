@@ -5,7 +5,7 @@
     <CycleTime>10000</CycleTime>
     <Priority>20</Priority>
     <PouCall>
-      <Name>Test_AnalogMotorDriver</Name>
+      <Name>Test_AnalogInput</Name>
     </PouCall>
     <TaskFBGuid>{9224ef74-df1e-4b6b-a5ab-2ea627e9a139}</TaskFBGuid>
     <Fb_init>{71bb9552-eeae-4a77-add1-f0468da895a5}</Fb_init>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Test_AnalogInput" Id="{5a628192-256d-4a4c-abb8-e8dbd9f140a1}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Test_AnalogInput
+VAR
+	fbLoadCell : FB_AnalogLoadCellInput; 
+	rOutputNewtons : REAL; 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbLoadCell(); 
+rOutputNewtons := fbLoadCell.rCalibratedOutput; ]]></ST>
+    </Implementation>
+    <LineIds Name="Test_AnalogInput">
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

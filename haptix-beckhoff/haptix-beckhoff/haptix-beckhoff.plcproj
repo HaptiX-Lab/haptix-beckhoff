@@ -19,7 +19,7 @@
     <Company>HaptiX Lab</Company>
     <Released>false</Released>
     <Title>Haptix-Beckhoff</Title>
-    <ProjectVersion>0.3</ProjectVersion>
+    <ProjectVersion>0.4</ProjectVersion>
     <Author>Nick Janne</Author>
     <Description>This is a library containing a standardized set of function blocks and tools used in research projects at the HaptiX Lab at the University of Michigan</Description>
   </PropertyGroup>
@@ -27,10 +27,16 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FB_AnalogLoadCellInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\FB_AnalogMotorDriver.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_QuadratureEncoder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Test_AnalogInput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Test_AnalogMotorDriver.TcPOU">

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_AnalogLoadCellInput" Id="{4a41d613-ff1c-4eac-a4f4-deb57692fb09}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AnalogLoadCellInput
+VAR_INPUT
+	rYIntercept : REAL := -72.1; // Y intercept when fitting a line for Integer Counts (Y) v.s. Applied Mass (X) 
+	rXSlope : REAL := -371; // Slope when fitting a line for Integer Coutns (Y) v.s. Applied Mass (X)
+	sUnits : STRING := 'N'; 
+END_VAR
+VAR_OUTPUT
+	nRawCounts : INT; // Copied from nAnalogReading
+	rCalibratedOutput : REAL; 
+	sOutputUnits : STRING; // Copied from sUnits 
+END_VAR
+VAR
+	nAnalogReading AT %I* : INT; 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// First get the analog reading, and save it 
+nRawCounts := nAnalogReading; 
+
+// Then, convert the reading to get the output in calibrated format: 
+rCalibratedOutput := (nRawCounts - rYIntercept) * (1/(rXSlope)); 
+
+// Finally, copy over the units 
+sOutputUnits := sUnits; ]]></ST>
+    </Implementation>
+    <LineIds Name="FB_AnalogLoadCellInput">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
