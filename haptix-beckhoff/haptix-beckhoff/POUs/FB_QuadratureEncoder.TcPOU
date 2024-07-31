@@ -8,6 +8,8 @@ END_VAR
 VAR_OUTPUT
 	rDegrees : REAL := 0; 
 	rLastDegrees : REAL := 0; 
+	rRadians : REAL := 0; 
+	rLastRadians : REAL := 0; 
 	nNetCounts : LINT := 0; 
 END_VAR
 VAR	
@@ -40,7 +42,8 @@ END_IF
 UpdateNetCounts();
 
 // Then we convert to degrees as well as updating last degrees 
-UpdateDegrees(); ]]></ST>
+UpdateDegrees(); 
+UpdateRadians(); ]]></ST>
     </Implementation>
     <Method Name="Reset" Id="{e613566e-35f4-4e28-b2e0-4de08a7ebe15}">
       <Declaration><![CDATA[METHOD Reset : BOOL
@@ -104,6 +107,20 @@ nLastCount := nCurrentCount;
 UpdateNetCounts := TRUE; ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="UpdateRadians" Id="{65ea657e-d98d-4e48-8aff-e30a2fccef4d}">
+      <Declaration><![CDATA[METHOD UpdateRadians : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Here, we simple take the current net counts value 
+// and convert it to radians. We also take note 
+// of the previous radians value and store in last radians
+rLastRadians := rRadians; 
+rRadians := LINT_TO_REAL(nNetCounts) * 2 * PI / (4 * nCPR); 
+UpdateRadians := TRUE; ]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_QuadratureEncoder">
       <LineId Id="9" Count="0" />
       <LineId Id="26" Count="0" />
@@ -116,6 +133,7 @@ UpdateNetCounts := TRUE; ]]></ST>
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="39" Count="0" />
+      <LineId Id="97" Count="0" />
     </LineIds>
     <LineIds Name="FB_QuadratureEncoder.Reset">
       <LineId Id="5" Count="2" />
@@ -142,6 +160,10 @@ UpdateNetCounts := TRUE; ]]></ST>
       <LineId Id="38" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QuadratureEncoder.UpdateRadians">
+      <LineId Id="5" Count="3" />
+      <LineId Id="10" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

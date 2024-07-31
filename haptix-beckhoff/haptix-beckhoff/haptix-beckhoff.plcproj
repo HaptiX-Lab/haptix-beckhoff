@@ -19,7 +19,7 @@
     <Company>HaptiX Lab</Company>
     <Released>false</Released>
     <Title>Haptix-Beckhoff</Title>
-    <ProjectVersion>0.4</ProjectVersion>
+    <ProjectVersion>0.5</ProjectVersion>
     <Author>Nick Janne</Author>
     <Description>This is a library containing a standardized set of function blocks and tools used in research projects at the HaptiX Lab at the University of Michigan</Description>
   </PropertyGroup>

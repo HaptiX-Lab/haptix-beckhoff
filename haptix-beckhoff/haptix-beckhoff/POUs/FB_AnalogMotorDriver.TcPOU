@@ -17,7 +17,8 @@ END_VAR
 VAR_OUTPUT
 	nPosAnalogOutput AT %Q* : INT; 
 	nNegAnalogOutput AT %Q* : INT; 
-	nZeroRefAnalogOutput AT %Q* : INT; 
+	nZeroRefAnalogOutput AT %Q* : INT;
+	rActualCommandVoltage : REAL;  
 	bOutputInError : BOOL; 
 END_VAR
 VAR
@@ -26,21 +27,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF NOT bUseNormalizedScale THEN 
-	
-	// In this case we were passed a raw voltage signal. 
-	// Should check to see if scaling is appropriate, etc. 
-	IF ABS(rCommandVoltage) > 10 THEN
-		bOutputInError := TRUE; 
-		RETURN; 
-	END_IF
-	
-	nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE / 10.0);
-	nNegAnalogOutput := -1 * nPosAnalogOutput;  
-	
-	bOutputInError := FALSE;
-
-ELSE 
+      <ST><![CDATA[IF bUseNormalizedScale THEN
 	
 	// Again check if argument is valid
 	IF ABS(rCommandVoltage) > 1 THEN 
@@ -51,12 +38,28 @@ ELSE
 	// Check to see if we should use the half scale. 
 	IF bUseHalfScale THEN
 		nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nFIVE_VOLT_AMPLITUDE); 
+		rActualCommandVoltage := rCommandVoltage * 5.0; 
 	ELSE
-		nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE); 
+		nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE);
+		rActualCommandVoltage := rCommandVoltage * 10.0;  
 	END_IF
 	
 	nNegAnalogOutput := -1 * nPosAnalogOutput;  
 	bOutputInError := FALSE; 
+	
+ELSE 
+	// In this case we were passed a raw voltage signal. 
+	// Should check to see if scaling is appropriate, etc. 
+	IF ABS(rCommandVoltage) > 10 THEN
+		bOutputInError := TRUE; 
+		RETURN; 
+	END_IF
+	
+	rActualCommandVoltage := rCommandVoltage;
+	nPosAnalogOutput := REAL_TO_INT(rCommandVoltage * nTEN_VOLT_AMPLITUDE / 10.0);
+	nNegAnalogOutput := -1 * nPosAnalogOutput;  
+	
+	bOutputInError := FALSE;
 	
 END_IF]]></ST>
     </Implementation>
@@ -73,17 +76,6 @@ bOutputInError := FALSE; ]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AnalogMotorDriver">
-      <LineId Id="9" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="32" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="50" Count="0" />
@@ -92,12 +84,22 @@ bOutputInError := FALSE; ]]></ST>
       <LineId Id="54" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="63" Count="0" />
-      <LineId Id="57" Count="2" />
-      <LineId Id="61" Count="1" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="62" Count="0" />
       <LineId Id="64" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="49" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="105" Count="6" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="112" Count="2" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="103" Count="0" />
       <LineId Id="48" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnalogMotorDriver.Reset">
